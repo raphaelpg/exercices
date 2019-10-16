@@ -3,10 +3,10 @@ class Cercle {
         this.rayon = rayon;
     }
     aire() {
-        return (this.rayon * Math.PI).toFixed(2)
+        return Math.pow(this.rayon, 2) * Math.PI
     }
     perimetre() {
-        return (this.rayon * 2 * Math.PI).toFixed(2)
+        return this.rayon * 2 * Math.PI
     }
 }
   
