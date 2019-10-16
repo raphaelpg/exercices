@@ -9,3 +9,5 @@ function palindrome(chaine){
 }
 
 console.log(palindrome("ANNA"))
+
+
