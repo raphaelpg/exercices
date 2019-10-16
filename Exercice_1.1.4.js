@@ -8,5 +8,5 @@ class Cercle {
     perimetre() {
         return (this.rayon * 2 * Math.PI).toFixed(2)
     }
-  }
+}
   
