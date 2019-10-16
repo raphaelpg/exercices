@@ -8,14 +8,8 @@ function estPalindrome(str){
         return false
 }
 
-console.log(estPalindrome("ANNA"))
-
-/*function estPalindrome(chaine) {
-    console.log(chaine, palindrome(chaine.split(" ").join(""))?"is":"is not", "a palindrome" )
-}*/
-
-console.log(estPalindrome("A"))
+/*console.log(estPalindrome("A"))
 console.log(estPalindrome("BOB"))
 console.log(estPalindrome("ANKA"))
 console.log(estPalindrome("ANNA"))
-console.log(estPalindrome("ESOPE RESTE ICI ET SE REPOSE"))
+console.log(estPalindrome("ESOPE RESTE ICI ET SE REPOSE"))*/
