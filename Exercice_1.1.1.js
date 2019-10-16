@@ -8,8 +8,10 @@ console.log(solution)
 console.log("Tentez de trouver le nombre entre 0 et 100:")
 rli.on('line', (userinput) => {
     console.log("Vous avez entré:", userinput)
-    if (Math.abs(userinput - solution) <= 10 && userinput != solution) {
+    if (Math.abs(userinput - solution) <= 10 && Math.abs(userinput - solution) > 5 && userinput != solution) {
         console.log("vous n'êtes pas loin")
+    } else if (Math.abs(userinput - solution) <= 5 && userinput != solution) {
+        console.log("vous êtes très proche")
     } else if (userinput == solution){
         console.log("Bravo vous avez trouvé")
         rli.close()
