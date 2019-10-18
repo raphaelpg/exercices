@@ -1,3 +1,5 @@
+//EXERCICE NON TERMINE !!! ECRIT LE AU 18/10/19
+
 var list_pourboire = {
     2000: 13000,
     6000: 9000,

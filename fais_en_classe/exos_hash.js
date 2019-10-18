@@ -26,4 +26,4 @@ function verification_cle(message, cle) {
 }
 console.log(verification_cle("pomme", "9169bf3e"))
 
-//fonctionqui donne la chaine dont le has commencepar "66" (ou "666")
+//fonction qui donne la chaine dont le hash commence par "66" (ou "666")

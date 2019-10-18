@@ -1,4 +1,4 @@
-//infixe 1A2RB3
+//EXERCICE NON TERMINE !!! ECRIT LE AU 18/10/19
 
 class Noeud {
     constructor(val) {
@@ -20,7 +20,7 @@ class Noeud {
     
     ajouterNoeud(valeur) {
         if (valeur < this.val) {
-            if (this.gauche == undefined) {
+            if (this.gauche === undefined) {
                 this.gauche = new Noeud(valeur)
             } else {
                 this.gauche.ajouterNoeud(valeur)
@@ -28,7 +28,7 @@ class Noeud {
         }
             
         if (valeur > this.val) {
-            if (this.droite == undefined) {
+            if (this.droite === undefined) {
                 this.droite = new Noeud(valeur)
             } else {
                 this.droite.ajouterNoeud(valeur)
@@ -37,23 +37,26 @@ class Noeud {
             
     }
 
-    trouverNoeud(valeur) {
+    trouverNoeud(valeur, noeud) {
         if (valeur < this.val && this.gauche) {
             if (this.gauche.val == valeur) {
-                console.log("La valeur " + valeur + " appartient à l'arbre.")
+                noeud.val = valeur
+                return noeud
             } else {
-                this.gauche.trouverNoeud(valeur)
+                this.gauche.trouverNoeud(valeur, noeud)
             }
         }
         if (valeur > this.val && this.droite) {
             if (this.droite.val == valeur) {
-                console.log("La valeur " + valeur + " appartient à l'arbre.")
+                noeud.val = valeur
+                return noeud
             } else {
-                this.droite.trouverNoeud(valeur)
+                this.droite.trouverNoeud(valeur, noeud)
             }
         }
-        else if (this.gauche == undefined && this.droite == undefined) {
-            console.log("La valeur " + valeur + " n'appartient pas à l'arbre")
+        else if (this.gauche === undefined && this.droite === undefined) {
+            noeud.val = undefined
+            return noeud
         }
     }
 
@@ -65,9 +68,7 @@ class Noeud {
         if(noeud.droite) {
             noeud.droite.infixe_noeud(noeud.droite, tableau)
         }
-        //tri du tableau dans l'ordre croissant
         tableau.sort(function(a, b){return a-b})
-        //Enlevement des doublons
         for (var i = 0; i < tableau.length; i++) {
             if (tableau[i] == tableau[i+1]) {
                 tableau.splice(i+1, 1)
@@ -78,18 +79,18 @@ class Noeud {
 
     supprimerNoeud(valeur) {
         //cas où le noeud est une feuille -> suppression simple
-        if (this.gauche && this.gauche.val == valeur && this.gauche.gauche == undefined && this.gauche.droite == undefined) {
+        if (this.gauche && this.gauche.val == valeur && this.gauche.gauche === undefined && this.gauche.droite === undefined) {
             this.gauche = null
-        } else if (this.droite && this.droite.val == valeur && this.droite.gauche == undefined && this.droite.droite == undefined) {
+        } else if (this.droite && this.droite.val == valeur && this.droite.gauche === undefined && this.droite.droite === undefined) {
             this.droite = null
         //cas où le noeud a un seul enfaut -> il est remplacé par lui
-        } else if (this.val == valeur && this.gauche && this.droite == undefined) {
+        } else if (this.val == valeur && this.gauche && this.droite === undefined) {
             this.parent = this.gauche
             this.gauche = null
             this.val = this.parent.val
             this.droite = this.parent.droite
             this.gauche = this.parent.gauche
-        } else if (this.val == valeur && this.gauche == undefined && this.droite) {
+        } else if (this.val == valeur && this.gauche === undefined && this.droite) {
             this.parent = this.droite
             this.droite = null
             this.val = this.parent.val
@@ -97,7 +98,7 @@ class Noeud {
             this.gauche = this.parent.gauche
         //Le noeud à deux enfants, on le remplace alors par le noeud le plus proche, c’est à dire le noeud le plus à droite de l’arbre gauche
         } else if (this.val == valeur && this.gauche && this.droite) {
-            if (this.gauche.droite == undefined) {
+            if (this.gauche.droite === undefined) {
                 this.parent = this.droite
                 this.gauche.droite = this.parent
                 this.val = null
@@ -122,15 +123,17 @@ class Arbre {
     //Méthode pour trouver une valeur donnée dans un arbre binaire de recherche
     trouverNoeud(valeur) {
         if (this.racine.val == valeur) {
-            console.log("La valeur " + valeur + " appartient à l'arbre.")
+            return this.racine
         } else {
-            this.racine.trouverNoeud(valeur)
+            var noeud = new Noeud(valeur)
+            var tableau_T = []
+            return this.racine.trouverNoeud(valeur, noeud, tableau_T)
         }
     }
 
     //Méthode pour ajouter un noeud
     ajouterNoeud(valeur) {
-        if (this.racine == undefined) {
+        if (this.racine === undefined) {
             this.racine = new Noeud(valeur)
         } else {
             this.racine.ajouterNoeud(valeur)
@@ -145,7 +148,7 @@ class Arbre {
     //Méthode pour afficher l’arbre selon un parcours infixe
     //Cette méthode doit retournée un tableau contenant la valeur des noeuds
     infixe() {
-        if (this.racine == undefined) {
+        if (this.racine === undefined) {
             return ("Cet arbre n'a pas de noeud")
         } else {
             var tableau_infixe = []
@@ -176,13 +179,3 @@ a.ajouterNoeud(10);
 a.ajouterNoeud(31);
 a.ajouterNoeud(35);
 a.ajouterNoeud(32);
-console.log(a.infixe())
-
-a.supprimerNoeud(46)
-console.log(a.infixe())
-
-a.supprimerNoeud(10)
-console.log(a.infixe())
-
-a.supprimerNoeud(30)
-console.log(a.infixe())
