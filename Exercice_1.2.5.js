@@ -84,43 +84,32 @@ class Noeud {
             this.droite = null
         //cas où le noeud a un seul enfaut -> il est remplacé par lui
         } else if (this.val == valeur && this.gauche && this.droite == undefined) {
-            var sousNoeudVal = this.gauche.val
-            var sousNoeudDroite = this.gauche.droite
-            var sousNoeudGauche = this.gauche.gauche
+            this.parent = this.gauche
             this.gauche = null
-            this.val = sousNoeudVal
-            this.droite = sousNoeudDroite
-            this.gauche = sousNoeudGauche
+            this.val = this.parent.val
+            this.droite = this.parent.droite
+            this.gauche = this.parent.gauche
         } else if (this.val == valeur && this.gauche == undefined && this.droite) {
-            var sousNoeudVal = this.droite.val
-            var sousNoeudDroite = this.droite.droite
-            var sousNoeudGauche = this.droite.gauche
+            this.parent = this.droite
             this.droite = null
-            this.val = sousNoeudVal
-            this.droite = sousNoeudDroite
-            this.gauche = sousNoeudGauche
+            this.val = this.parent.val
+            this.droite = this.parent.droite
+            this.gauche = this.parent.gauche
         //Le noeud à deux enfants, on le remplace alors par le noeud le plus proche, c’est à dire le noeud le plus à droite de l’arbre gauche
         } else if (this.val == valeur && this.gauche && this.droite) {
-            var noeudRemplacant = []
-            noeudRemplacant.concat(typeof this.gauche.noeudPlusADroite())
-            console.log(noeudRemplacant)
-            
-
-        
+            if (this.gauche.droite == undefined) {
+                this.parent = this.droite
+                this.gauche.droite = this.parent
+                this.val = null
+                this.droite = null
+            } else {
+                this.val = this.gauche.droite.val
+            }
         //boucle sur noeud suivant
         } else if (valeur > this.val) {
             this.droite.supprimerNoeud(valeur)
         } else if (valeur < this.val) {
             this.gauche.supprimerNoeud(valeur)
-        }
-    }
-
-    noeudPlusADroite() {
-        if (this.droite) {
-            this.droite.noeudPlusADroite()
-        } else {
-            console.log([this.val, this.gauche])
-            return [this.val, this.gauche]
         }
     }
 }
