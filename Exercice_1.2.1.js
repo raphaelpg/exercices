@@ -8,3 +8,6 @@ function factoriel(a) {
     } 
     return a
 }
+
+
+//return a * factoriel (a - 1)
