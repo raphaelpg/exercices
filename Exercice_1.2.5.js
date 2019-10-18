@@ -1,5 +1,6 @@
 //EXERCICE NON TERMINE !!! ECRIT LE AU 18/10/19
 
+/*
 class Noeud {
     constructor(val) {
         this.val = val
@@ -37,7 +38,7 @@ class Noeud {
             
     }
 
-    trouverNoeud(valeur, noeud) {
+    trouverNoeud(valeur, noeud, tableau) {
         if (valeur < this.val && this.gauche) {
             if (this.gauche.val == valeur) {
                 noeud.val = valeur
@@ -58,6 +59,8 @@ class Noeud {
             noeud.val = undefined
             return noeud
         }
+        tableau.push(5)
+        return tableau
     }
 
     infixe_noeud(noeud, tableau) {
@@ -159,7 +162,9 @@ class Arbre {
     //Méthode pour afficher la valeur d'un noeud à partir de sa valeur
     printNoeud (valeur) {
         let noeud = this.trouverNoeud(valeur);
-        if (noeud !== undefined) noeud.toString();
+        if (noeud !== undefined) {
+            noeud.toString();
+        }
     }
 }
 
@@ -179,3 +184,100 @@ a.ajouterNoeud(10);
 a.ajouterNoeud(31);
 a.ajouterNoeud(35);
 a.ajouterNoeud(32);
+
+console.log(a.printNoeud(11))
+*/
+
+class Noeud {
+    constructor(val) {
+        this.valeur = val;
+        this.gauche = undefined;
+        this.droite = undefined;
+        this.parent = undefined;
+    }
+    
+    // Affiche la valeur du noeud et la valeur de ses deux enfants et de son parent
+    toString() {
+        var out = "Noeud " + this.valeur + ":  L";
+        
+        this.gauche === undefined ? out += "-" : out += this.gauche.valeur;
+        out += " R";
+        
+        this.droite === undefined ? out += "-" : out += this.droite.valeur;
+        out += " P";
+        
+        this.parent === undefined ? out += "-" : out += this.parent.valeur;
+        log(out);
+    }
+
+    //Methode pour ajouter un noeud
+    ajouterNoeud_N(valeur) {
+        if (valeur < this.val) {
+            if (this.gauche === undefined) {
+                this.gauche = new Noeud(valeur)
+            } else {
+                this.gauche.ajouterNoeud_N(valeur)
+            }
+        }
+        if (valeur > this.val) {
+            if (this.droite === undefined) {
+                this.droite = new Noeud(valeur)
+            } else {
+                this.droite.ajouterNoeud_N(valeur)
+            }
+        }  
+    }
+}
+class Arbre {
+    constructor() {
+        this.racine = undefined;
+    }
+    
+    //Méthode pour trouver une valeur donnée dans un arbre binaire de recherche
+    trouverNoeud(valeur) {
+    }
+    
+    //Méthode pour ajouter un noeud
+    ajouterNoeud(valeur) {
+        if (this.racine === undefined) {
+            this.racine = new Noeud(valeur)
+        } else {
+            console.log("ajouter")
+            this.racine.ajouterNoeud_N(valeur)
+        } 
+    }
+    
+    //Méthode pour supprimer un noeud
+    supprimerNoeud(valeur) {
+    }
+    
+    //Méthode pour afficher l’arbre selon un parcours infixe
+    //Cette méthode doit retournée un tableau contenant la valeur des noeuds
+    infixe() {
+    }
+    
+    //Méthode pour afficher la valeur d'un noeud à partir de sa valeur
+    printNoeud (valeur) {
+        let noeud = this.trouverNoeud(valeur);
+        if (noeud !== undefined) noeud.toString();
+    }
+}
+
+let a = new Arbre();
+a.ajouterNoeud(30);
+a.ajouterNoeud(18);
+a.ajouterNoeud(24);
+a.ajouterNoeud(11);
+a.ajouterNoeud(33);
+a.ajouterNoeud(13);
+a.ajouterNoeud(40);
+a.ajouterNoeud(46);
+a.ajouterNoeud(14);
+a.ajouterNoeud(21);
+a.ajouterNoeud(12);
+a.ajouterNoeud(10);
+a.ajouterNoeud(31);
+a.ajouterNoeud(35);
+a.ajouterNoeud(32);
+
+console.log(a)
