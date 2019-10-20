@@ -54,6 +54,18 @@ var pourboire_total = octets = 0
     var combinaisons = []
     //Remplacer cette fonction par une fonction recursive
     function remplirCombinaisons(liste) {
+        /*for (var j = 0; j < liste.length; j++) {
+            if (j = 0) {
+                for (var i = 0; i < liste.length; i++) {
+                    combinaisons.push([liste[i][0], liste[i][1]])
+                }
+            } else {
+                for (var i = 0; i < liste.length; i++) {
+                    combinaisons.push([liste[i][0], liste[i][1]])
+                }
+            }
+        }*/
+
         for (var i = 0; i < liste.length; i++) {
             combinaisons.push([liste[i][0], liste[i][1]])
         }
