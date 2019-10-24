@@ -1,13 +1,10 @@
-function factoriel(a) {
+//Factorial function
+function factorial(a) {
     if (a == 0 || a == 1) {
         return 1
     } else {
-        for (var i = a; i > 1; i--) {
-            a = a * (i-1)
-        }
-    } 
-    return a
+        return a * factorial (a - 1)
+    }
 }
 
-
-//return a * factoriel (a - 1)
+console.log(factorial(8))
