@@ -52,3 +52,5 @@ function convertVarIntToDeci(number) {
 console.log(convertVarIntToDeci("fe12345678"))
 //Champ Bits -> Cible correspondante
 //Cible -> Difficulté
+
+console.log(convertHexaToDeci("ffffffffffffffff"))
