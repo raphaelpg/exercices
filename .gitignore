@@ -1,4 +1,6 @@
 __pycache__
 node_modules/**
 /package-lock.json
-defi_1/
+defi_1/*
+/exemple_exo
+/exemple_exo.pub
