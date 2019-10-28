@@ -18,4 +18,3 @@ function adresseBitcoin(clePublique) {
 }
 
 console.log(adresseBitcoin("82883"))
-//dl base-58

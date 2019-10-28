@@ -59,6 +59,6 @@ function convertDeciToVarInt(number) {
     return "0x " + prefix + convertDeciToHexaLittleEnd(number).substring(2)
 }
 
-console.log(convertDeciToHexaBigEnd(466321))
-console.log(convertDeciToHexaLittleEnd(466321))
-console.log(convertDeciToVarInt(466321))
+console.log(convertDeciToHexaBigEnd(3841))
+console.log(convertDeciToHexaLittleEnd(3841))
+console.log(convertDeciToVarInt(3841))

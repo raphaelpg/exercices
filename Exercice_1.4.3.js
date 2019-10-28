@@ -16,7 +16,7 @@ function ParseEntry(transaction) {
 
     let sequence = transaction.substring(72+scriptSig.length)
     
-    console.log("Parsing entry: \nPrevious transaction hash: "+previousTransaction+"\nOutput index: "+outputIndex+"\nScriptSig varInt :"+varIntScriptSig+"\nScriptSig: "+scriptSig+"\nSignature varInt :"+varIntSignature+"\nSignature: "+signature+"\nPublic key varInt: "+varIntPubKey+"\nPublic key : "+pubKey+"\nSequence: "+sequence)
+    console.log("Parsing entry: \nPrevious transaction hash: "+previousTransaction+"\nOutput index: "+outputIndex+"\nScriptSig varInt :"+varIntScriptSig+"\nScriptSig: "+scriptSig+"\nSignature varInt :"+varIntSignature+"\nSignature (in little endian): "+signature+"\nPublic key varInt: "+varIntPubKey+"\nPublic key (in little endian): "+pubKey+"\nSequence: "+sequence)
 }
 
 ParseEntry(entry)

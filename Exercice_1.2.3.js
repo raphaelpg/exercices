@@ -1,4 +1,4 @@
-/*Function more efficient than below naive factorial function*/
+//Function more efficient than below naive factorial function
 function factorialRecursiveNaive(n) {
     if(n === 0) {
         return 1
@@ -8,39 +8,45 @@ function factorialRecursiveNaive(n) {
 }
 
 function factorialEff(n) {
-    result = twoPower = 0
-    halfOde = power = 1
-    function produitImpaires(x) {
-        let odd = 1
-        for (let i = x; i > 2; i--) {
-            if (i % 2 != 0) {
-                odd = odd * i
-                return odd
-            } 
+    let result = 0
+    let twoPower = 0
+    let halfOdd = 1
+    let minusOdd = 1
+    let odd = 1
+    let div = n/2
+    for (let i = n; i > 2; i--) {
+        if (i % 2 != 0) {
+            odd = odd * i
         }
-        /*for (let i = 1 ; i <= Math.floor(n/2); i+=2) {
-            if (i % 2 != 0) {
-                halfOde = halfOde * i
-            }
-        }
-        for (let i = 0; i <= n; i++) {
-            if (i > 1) {
-                power = (power+1)
-            }
-        }
-        twoPower = Math.pow(2, power)
-        console.log(odd + " + " + halfOde + "+ 2^"+power)
-        result = odd * halfOde * twoPower*/
-        while(n>1) {
-            produit *= produitImpaires(n)
-            power += Math.trunc(n/2)
-            n = Math.trunc(n/2)
-        }
-        return n
     }
+
+    let j = Math.floor(n/2)
+    if (j % 2 == 0) {
+        j -= 1
+    }
+    do {
+        for (let i = 1 ; i <= j; i+=2) {
+            if (i % 2 != 0) {
+                halfOdd *= i
+            }
+        }
+        j -= 2
+    } while (j > 1)    
+
+    for (let i = 1; div >= 1; i++) {
+        div = n/(Math.pow(2,i))
+        twoPower = twoPower + Math.floor(div)
+    }
+
+    //console.log("fac" + n + " odd" + odd + " halfodd" + halfOdd + " 2^" + twoPower)
+    result = odd * halfOdd * Math.pow(2,twoPower)
+    return result
 }
 
-let test = 12
-    console.log(factorialRecursiveNaive(test))
-    console.log(factorialEff(test))
+let test = 21
+for (let i = 0; i < test; i++) {
+    console.log(factorialRecursiveNaive(i))
+    console.log(factorialEff(i))
+}
+
 
