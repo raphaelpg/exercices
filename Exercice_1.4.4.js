@@ -5,11 +5,11 @@ let transaction = "0100000001f129de033c57582efb464e94ad438fff493cc4de4481729b859
 function parseTransaction(transaction){
     //Version
     let versionLength = 8
-    let version = transaction.substring(0,versionLength)
+    let version = transaction.substring(0, versionLength)
 
     //Input Count
     let inputCountLength = 2
-    let inputCount = parseInt(parseInt(transaction.substring(versionLength, inputCountLength),16).toString())
+    let inputCount = parseInt(parseInt(transaction.substring(versionLength, versionLength + inputCountLength),16).toString())
 
     //Input
         //Previous Tx
@@ -17,42 +17,61 @@ function parseTransaction(transaction){
         //VOUT
     let vOutLength = 8
         //ScriptSig VarInt
-    let firstVarIntPrefix = transaction.substring(versionLength+inputCountLength+txIdLength+vOutLength, versionLength+inputCountLength+txIdLength+vOutLength+2)
-    let scriptSigVarIntLength = 0
-    if (firstVarIntPrefix == "fd") {
-        scriptSigVarIntLength = 4
-    } else if (firstVarIntPrefix == "fe") {
-        scriptSigVarIntLength = 8
-    } else if (firstVarIntPrefix == "ff") {
-        scriptSigVarIntLength = 16
-    } else {
-        scriptSigVarIntLength = 2
-    }
+    let firstVarIntPrefixLength = 2
+    let firstVarIntPrefix = transaction.substring(versionLength + inputCountLength + txIdLength + vOutLength, versionLength + inputCountLength + txIdLength + vOutLength + firstVarIntPrefixLength)
         //ScriptSig
-    let scriptSigSize_1_Length = (parseInt(parseInt(firstVarIntPrefix, 16).toString()))*2 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ERREUR !!!!
-    let inputSizeArray = 0
+    let scriptSigSize_1_Length = (parseInt(parseInt(firstVarIntPrefix, 16).toString()))*2
         //Sequence
     let sequenceLength = 8
-    //First input size pushed in array
-    inputSizeArray += (txIdLength + vOutLength + scriptSigVarIntLength + scriptSigSize_1_Length + sequenceLength)
-    console.log(inputSizeArray)
-    //All inputs size loop
+        //First input length added in array
+    let inputLengthArray = 0
+    inputLengthArray += (txIdLength + vOutLength + firstVarIntPrefixLength + scriptSigSize_1_Length + sequenceLength)
+        //All inputs length loop
     if (inputCount > 1){
-        for (let i = 0; i < inputCount; i++){
-            let scriptSigSize_i_Length = (parseInt(parseInt(firstVarIntPrefix, 16).toString()))*2
-            inputSizeArray += (txIdLength + vOutLength + scriptSigVarIntLength + scriptSigSize_i_Length)
+        for (let i = 1; i < inputCount; i++){
+            let scriptSigVarInt_i = transaction.substring(versionLength + inputCountLength + inputLengthArray + txIdLength + vOutLength, versionLength + inputCountLength + inputLengthArray + txIdLength + vOutLength + firstVarIntPrefixLength)
+            let scriptSigSize_i_Length = (parseInt(parseInt(scriptSigVarInt_i, 16).toString()))*2
+            inputLengthArray += (txIdLength + vOutLength + firstVarIntPrefixLength + scriptSigSize_i_Length + sequenceLength)
         }
     }
-    console.log(inputSizeArray)
+    let input = transaction.substring(versionLength + inputCountLength, versionLength + inputCountLength + inputLengthArray)
 
     //Output Count
     let outputCountLength = 2
-    let outputCount = parseInt(parseInt(transaction.substring(versionLength + inputCountLength + inputSizeArray, versionLength + inputCountLength + inputSizeArray + outputCountLength)),16).toString()
-    console.log(outputCount)
+    let outputCount = parseInt(parseInt(transaction.substring(versionLength + inputCountLength + inputLengthArray, versionLength + inputCountLength + inputLengthArray + outputCountLength)),16).toString()
 
     //Output
+        //Value
+    let outputValueLength = 16
+    let outputValue = transaction.substring(versionLength + inputCountLength + inputLengthArray + outputCountLength, versionLength + inputCountLength + inputLengthArray + outputCountLength + outputValueLength)
+        //ScriptPubKey VarInt
+    let ScriptPubKeyFirstVarIntLentgh = 2
+    let ScriptPubKeyFirstVarInt = transaction.substring(versionLength + inputCountLength + inputLengthArray + outputCountLength + outputValueLength, versionLength + inputCountLength + inputLengthArray + outputCountLength + outputValueLength + ScriptPubKeyFirstVarIntLentgh)
+        //ScriptPubKey
+    let ScriptPubKeyLength = (parseInt(parseInt(ScriptPubKeyFirstVarInt, 16).toString()))*2
+        //Loop for all outputs
+    let outputsLengthArray = 0
+        //First output length added in array
+    outputsLengthArray += outputValueLength + ScriptPubKeyFirstVarIntLentgh + ScriptPubKeyLength
+        //All inputs length loop
+    if (outputCount > 1){
+        for (let i = 1; i < outputCount; i++){
+            let scriptPubKeyVarInt_i = transaction.substring(versionLength + inputCountLength + inputLengthArray + outputCountLength + outputsLengthArray + outputValueLength, versionLength + inputCountLength + inputLengthArray + outputCountLength + outputsLengthArray + outputValueLength + ScriptPubKeyFirstVarIntLentgh)
+            let scriptPubKeySize_i_Length = (parseInt(parseInt(scriptPubKeyVarInt_i, 16).toString()))*2
+            outputsLengthArray += (outputValueLength + ScriptPubKeyFirstVarIntLentgh + scriptPubKeySize_i_Length)
+        }
+    }
+    let output = transaction.substring(versionLength + inputCountLength + inputLengthArray + outputCountLength, versionLength + inputCountLength + inputLengthArray + outputCountLength + outputsLengthArray)
 
     //Locktime
+    let locktimeLength = 8
+    let locktime = transaction.substring(versionLength + inputCountLength + inputLengthArray + outputCountLength + outputsLengthArray, versionLength + inputCountLength + inputLengthArray + outputCountLength + outputsLengthArray + locktimeLength)
+    
+    console.log("Parsing transaction: \nVersion: " + version + "\nInput count: " + inputCount + "\nInput: " + input + "\nOutput count: " + outputCount + "\nOutput: " + output + "\nLocktime: " + locktime)
 }
 
 parseTransaction(transaction)
+
+//L'exercice peut être complété en retournant le détail de chaque input et output, les élements sont déjà identifiés, il faut récupérer les valeur et les ajouter au console
+//log final. Ne pas oublier d'enregistrer les infos lors des boucles for.
+//Il faut aussi prendre en compte les préfixes des varInt. 
