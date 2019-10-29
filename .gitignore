@@ -2,5 +2,6 @@ __pycache__
 node_modules/**
 /package-lock.json
 defi_1/**
+fais_en_classe/**
 exemple_exo
 exemple_exo.pub
