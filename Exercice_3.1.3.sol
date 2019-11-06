@@ -23,15 +23,15 @@ contract Assemblee {
     }
 
     function proposerDecision(string memory description) public {
-        require (estMembre(msg.sender) == true);
+        require (estMembre(msg.sender), "Il faut être membre");
         descriptionDecisions.push(description);
         votesPour.push(0);
         votesContre.push(0);
     }
 
     function voter(uint indice, bool value) public {
-        require (estMembre(msg.sender) == true);
-        require (descriptionDecisions.length >= indice + 1);
+        require (estMembre(msg.sender), "Il faut être membre");
+        require (descriptionDecisions.length >= indice + 1, "La décision n'existe pas");
         if(value == true){
             votesPour[indice] += 1;
         } else if(value == false){
@@ -40,7 +40,7 @@ contract Assemblee {
     }
 
     function comptabiliser(uint indice) public view returns (int){
-        require (descriptionDecisions.length >= indice + 1);
+        require (descriptionDecisions.length >= indice + 1, "La décision n'existe pas");
         int resultat;
         resultat = int(votesPour[indice] - votesContre[indice]);
         return resultat;
