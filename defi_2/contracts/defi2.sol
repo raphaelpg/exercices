@@ -1,10 +1,10 @@
-pragma solidity ^0.5.12;
+pragma solidity ^0.5.11;
 pragma experimental ABIEncoderV2;
 
-import "github.com/OpenZeppelin/openzeppelin-solidity/contracts/math/SafeMath.sol";
+//import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
-contract MarketIllustrator {
-    using SafeMath for uint;
+contract defi2 {
+    //using SafeMath for uint;
     enum Etat {OUVERTE, ENCOURS, FERMEE}
     mapping (address => bool) private administrateurs;
     mapping (address => string) public illustrateurs;

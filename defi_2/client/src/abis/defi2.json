@@ -1,0 +1,247 @@
+{
+	"contractName": "defi2",
+	"abi":
+		[
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "illustrateur",
+						"type": "address"
+					}
+				],
+				"name": "bannir",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "nom",
+						"type": "string"
+					}
+				],
+				"name": "inscription",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "entreprises",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "nomsEntreprises",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "nomEntreprise",
+						"type": "string"
+					}
+				],
+				"name": "inscrireEntreprise",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "demandes",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "_remuneration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_delai",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_description",
+						"type": "string"
+					},
+					{
+						"internalType": "enum MarketIllustrator.Etat",
+						"name": "_etat",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_reputationMini",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "illustrateurs",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "bannis",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "reputation",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "remuneration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "delai",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "reputationMini",
+						"type": "uint256"
+					}
+				],
+				"name": "ajouterDemande",
+				"outputs": [],
+				"payable": true,
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			}
+		],
+		"networks": {
+			"5777": {
+				"events": {},
+				"links": {},
+				"address": "",
+				"transactionHash": ""
+			},
+			"3": {
+				"events": {},
+				"links": {},
+				"address": "",
+				"transactionHash": ""
+			}
+		}
+	}
