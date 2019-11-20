@@ -1,23 +1,28 @@
-pragma solidity ^0.5.12;
+pragma solidity ^0.5.11;
 
-import "github.com/OpenZeppelin/openzeppelin-solidity/contracts/math/SafeMath.sol";
-
-contract Pulsation{
-    using SafeMath for uint;
+contract Pulsation {
     uint public battement;
-    string private message;
+    string public _message;
 
-    constructor(string memory messageSent) public {
+    constructor(string memory titre) public {
         battement = 0;
-        message = messageSent;
+        _message = titre;
+    }
+
+    function ajouterBattement() public returns(string memory){
+        battement += 1;
+        return _message;
+    }
+}
+
+contract Pendule {
+    Pulsation pulse;
+    
+    constructor (string memory title) public{
+        pulse = new Pulsation(title);
     }
     
-    function printMessage() public view returns(string memory){
-        return message;
-    }
-
-    function ajouterBattement() public returns (string memory){
-        battement = battement.add(1);
-        return message;
+    function provoquerUnePulsation() public returns (string memory){
+        return pulse.ajouterBattement();
     }
 }
