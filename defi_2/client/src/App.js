@@ -71,7 +71,7 @@ class App extends Component {
   async ajouterDemande(remunerationOffre, delaiOffre, descriptionOffre, reputationMiniOffre) {
     const { web3, contrat, account } = this.state
     const myContract = new web3.eth.Contract(Defi2.abi, contrat)
-    let cost = remunerationOffre + (remunerationOffre / 10)
+    let cost = remunerationOffre + (Math.ceil((remunerationOffre * 2) / 100))
     await myContract.methods.ajouterDemande(remunerationOffre, delaiOffre, descriptionOffre, reputationMiniOffre).send({from: account, value: cost})
   }
 
