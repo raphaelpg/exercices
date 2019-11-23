@@ -119,4 +119,21 @@ contract Defi2 {
             reputation[demandes[numeroOffre]._elu] -= 1;
         }
     }
+
+    function nbCandidatOffre(uint numeroOffre) public view returns(uint) {
+        require(numeroOffre < demandesCompteur, "Offre non existante");
+        return demandes[numeroOffre]._addressCandidats.length;
+    }
+
+    function addressCandidatOffre(uint numeroOffre, uint numeroCandidat) public view returns(address) {
+        require(numeroOffre < demandesCompteur, "Offre non existante");
+        require(numeroCandidat < demandes[numeroOffre]._addressCandidats.length, "Candidat non existant");
+        return demandes[numeroOffre]._addressCandidats[numeroCandidat];
+    }
+
+    function nomCandidatOffre(uint numeroOffre, uint numeroCandidat) public view returns(string memory) {
+        require(numeroOffre < demandesCompteur, "Offre non existante");
+        require(numeroCandidat < demandes[numeroOffre]._nomsCandidats.length, "Candidat non existant");
+        return demandes[numeroOffre]._nomsCandidats[numeroCandidat];
+    }
 }
