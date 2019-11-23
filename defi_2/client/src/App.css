@@ -21,11 +21,33 @@
   color: #09d3ac;
 }
 
+.dappHeader{
+  height: 10vh;
+  display: flex;
+}
+
+h1{
+  margin: auto;
+  padding: 0;
+}
+
+.mainConteneur{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 90vh;
+}
+
+.mainConteneurChild{
+  width: 40%;
+  margin: 5px;
+  overflow: auto;
+}
 .conteneur{
   border: 1px solid grey;
   border-radius: 10px;
   padding: 1% 0% 1% 1%;
-  margin: 1% 20%;
+  margin: 1% 0%;
   text-align: left;
 }
 
