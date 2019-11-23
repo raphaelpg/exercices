@@ -74,6 +74,7 @@ contract Defi2 {
         require(demandes[numeroOffre]._etat == Etat.OUVERTE, "Cette offre n'est plus ouverte au candidatures");
         require(bannis[msg.sender] == false, "Vous avez été banni");
         require(reputation[msg.sender] > 0, "Vous devez être inscrit");
+        require(demandes[numeroOffre]._proprietaire != msg.sender, "Vous êtes le propriétaire");
         demandes[numeroOffre]._candidats[msg.sender] = true;
         demandes[numeroOffre]._addressCandidats.push(msg.sender);
         demandes[numeroOffre]._nomsCandidats.push(utilisateurs[msg.sender]);
