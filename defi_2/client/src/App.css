@@ -22,7 +22,7 @@
 }
 
 body{
-  background-color: dimgray;
+  /*background-color: dimgray;*/
 }
 
 .dappHeader{
@@ -33,6 +33,7 @@ body{
 h1{
   margin: auto;
   padding: 0;
+  color: crimson;
 }
 
 .mainConteneur{
@@ -51,13 +52,42 @@ h1{
   background-color: #ffffff;
   border: 1px solid grey;
   border-radius: 10px;
-  padding: 1% 0% 1% 1%;
+  padding: 1% 1% 1% 1%;
   margin: 1% 0%;
   text-align: left;
 }
 
+.offre{
+  text-align:center;
+}
+
+.soustitre1, .soustitre2{
+  display: inline;
+}
+
+.soustitre2{
+  color: rgb(104, 102, 102);
+}
+
+h3{
+  padding: 0;
+  margin: 0;
+  color: crimson;
+}
+
+p{
+  padding: 0;
+  margin: 0;
+  margin-bottom: 6px;
+  color: rgb(104, 102, 102);
+}
+
+ul{
+  padding: 0px;
+}
+
 li{
-  margin: 3% 0% 0% 3%;
+  list-style-type: none;
 }
 
 h4{

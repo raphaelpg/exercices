@@ -18,6 +18,7 @@ class App extends Component {
       offers: [],
       contenuHasher: '',
       contenuStyle: {width: '90%', display: 'none'},
+      reput: 0,
     }
   }
 
@@ -48,13 +49,14 @@ class App extends Component {
       web3: web3
     })
 
-    const networkId = await web3.eth.net.getId()
-    const networkData = Defi2.networks[networkId]
+    const networkId = await web3.eth.net.getId();
+    const networkData = Defi2.networks[networkId];
 
     if(networkData) {      
-      const contrat = new web3.eth.Contract(Defi2.abi, networkData.address)
+      const contrat = new web3.eth.Contract(Defi2.abi, networkData.address);
       const offers = [];
       const demandesCompteur = await contrat.methods.demandesCompteur().call();
+      const reput = await contrat.methods.reputationPerso(this.state.account).call();
       for (let i = 0; i < demandesCompteur; i++) {
         const demande = await contrat.methods.demandes(i).call();
         demande._addressCandidats = [];
@@ -70,7 +72,8 @@ class App extends Component {
       }
       this.setState({
         contrat : contrat._address,
-        offers: offers
+        offers: offers,
+        reput: reput,
       })
     } else {
       window.alert('Defi2 contract not deployed to detected network.')
@@ -102,8 +105,9 @@ class App extends Component {
   }
 
   render() {
-    const { web3, account, contrat, offers, contenuHasher } = this.state;
-    const { contenuStyle } = this.state;
+    const {web3, account, contrat, offers, contenuHasher} = this.state;
+    const {contenuStyle} = this.state;
+    const {reput} = this.state;
     return (
       <React.Fragment>
         <div className="App">
@@ -111,8 +115,9 @@ class App extends Component {
           <main>
             <div className="mainConteneur">
               <div className="mainConteneurChild">
+
                 <div id="inscriptionUtilisateur" className="conteneur">
-                  Inscription:
+                  <h3>Inscription:</h3>
                   <form onSubmit={(event) => {
                       event.preventDefault()
                       const nom = this.nomUtilisateur.value
@@ -120,7 +125,10 @@ class App extends Component {
                     }}>
                     <div className="champs">
                       <div className="formulaireItems">Nom: 
-                      <input id="nomUtilisateur" type="text" ref={(input) => { this.nomUtilisateur = input }} required/>
+                        <input id="nomUtilisateur" type="text" ref={(input) => { this.nomUtilisateur = input }} required/>
+                      </div>
+                      <div>
+                        <label>Votre réputation: {reput}</label>
                       </div>
                     </div>
                     <button type="submit" >Valider</button>
@@ -135,7 +143,7 @@ class App extends Component {
                       const description = this.descriptionForm.value
                       const reputationMini = this.reputationMiniForm.value
                       this.ajouterDemande(remuneration, delai, description, reputationMini)
-                    }}>Proposer une offre:
+                    }}><h3>Proposer une offre:</h3>
                       <div className="champs">
                         <div className="formulaireItems" >Remuneration: 
                         <input id="remunerationForm" type="text" ref={(input) => { this.remunerationForm = input }} required/>
@@ -155,7 +163,7 @@ class App extends Component {
                 </div>
 
                 <div id="hasher" className="conteneur">
-                  Hasher:
+                <h3>Hasher:</h3>
                   <form onSubmit={(event) => {
                       event.preventDefault()
                       const lienAHasher = this.lien.value
@@ -166,7 +174,7 @@ class App extends Component {
                       <input id="lien" type="text" ref={(input) => { this.lien = input }} required/>
                       </div>
                       <div className="formulaireItems">
-                      <textarea id="contenuHasher" value={contenuHasher} style={contenuStyle}></textarea>
+                      <textarea id="contenuHasher" value={contenuHasher} style={contenuStyle} readOnly></textarea>
                       </div>
                     </div>
                     <button type="submit" >Valider</button>
@@ -177,12 +185,13 @@ class App extends Component {
 
               <div className="mainConteneurChild">
                 <div id="listeOffres" className="conteneur">
-                Liste des offres:
+                <h3>Liste des offres:</h3>
                 <ul>
                   { offers.map( (offre, numeroOffre) => <OffreItem web3={web3} account={account} contrat={contrat} key={numeroOffre.toString()} offre={offre} numeroOffre={numeroOffre} />)}
                 </ul>
                 </div>
               </div>
+
             </div>
           </main>
         </div>
