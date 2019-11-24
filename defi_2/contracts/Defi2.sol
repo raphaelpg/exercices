@@ -137,4 +137,8 @@ contract Defi2 {
         require(numeroCandidat < demandes[numeroOffre]._nomsCandidats.length, "Candidat non existant");
         return demandes[numeroOffre]._nomsCandidats[numeroCandidat];
     }
+
+    function reputationPerso(address adresse) public view returns(uint){
+        return reputation[adresse];
+    }
 }
