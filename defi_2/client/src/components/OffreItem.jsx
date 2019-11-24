@@ -79,13 +79,13 @@ class OffreItem extends Component {
         const { account, offre } = this.state;
         return (
             <li className="OffreItem" >
-                <div className="conteneur">
-                    <div>Propriétaire :</div><div className="">{ offre._proprietaire }</div>
-                    <div>Rémunération :</div><div className="">{ offre._remuneration } wei</div>
-                    <div>Durée :</div><div className="">{ offre._delai } sec</div>
-                    <div>Description :</div><div className="">{ offre._description }</div>
-                    <div>État :</div><div className="">{ this.etat(parseInt(offre._etat)) }</div>
-                    <div>Réputation minimale :</div><div className="">{ offre._reputationMini }</div>
+                <div className="conteneur offre">
+                    <div>Propriétaire :</div><p>{ offre._proprietaire }</p>
+                    <div className="soustitre1">Rémunération : </div><p>{ offre._remuneration } wei</p>
+                    <div className="soustitre1">Durée : </div><p>{ offre._delai / 86400 } jour(s)</p>
+                    <div className="soustitre1">Description : </div><p>{ offre._description }</p>
+                    <div className="soustitre1">État : </div><p>{ this.etat(parseInt(offre._etat)) }</p>
+                    <div className="soustitre1">Réputation minimale : </div><p>{ offre._reputationMini }</p>
                     { (offre._etat) === "0" && (offre._proprietaire !== account) ?
                         <div><button onClick={ this.postuler }>Candidater</button></div> : null
                     }
