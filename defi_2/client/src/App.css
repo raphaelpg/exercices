@@ -21,6 +21,10 @@
   color: #09d3ac;
 }
 
+body{
+  background-color: dimgray;
+}
+
 .dappHeader{
   height: 10vh;
   display: flex;
@@ -44,6 +48,7 @@ h1{
   overflow: auto;
 }
 .conteneur{
+  background-color: #ffffff;
   border: 1px solid grey;
   border-radius: 10px;
   padding: 1% 0% 1% 1%;
@@ -74,9 +79,19 @@ h4{
 
 .formulaireItems{
   text-align: left;
+  margin-bottom: 5px;
 }
 
 .champs{
   margin: 3% 0% 3% 5%;
 }
 
+input{
+  margin-left: 3px;
+  width: 40%;
+}
+
+#contenuHasher{
+  width: 90%;
+  border: 0;
+}

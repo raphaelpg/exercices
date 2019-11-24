@@ -3,6 +3,7 @@ import Defi2 from './contracts/Defi2.json';
 import React, {Component } from 'react';
 import './App.css';
 import DappHeader from './components/dappHeader';
+import OffreItem from "./components/OffreItem";
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class App extends Component {
       demande: '',
       offers: [],
       contenuHasher: '',
+      contenuStyle: {width: '90%', display: 'none'},
     }
   }
 
@@ -51,10 +53,25 @@ class App extends Component {
 
     if(networkData) {      
       const contrat = new web3.eth.Contract(Defi2.abi, networkData.address)
+      const offers = [];
+      const demandesCompteur = await contrat.methods.demandesCompteur().call();
+      for (let i = 0; i < demandesCompteur; i++) {
+        const demande = await contrat.methods.demandes(i).call();
+        demande._addressCandidats = [];
+        demande._nomsCandidats = [];
+        const nbCandidatOffre = await contrat.methods.nbCandidatOffre(i).call();
+        for (let j = 0; j < nbCandidatOffre; j++) {
+          const address = await contrat.methods.addressCandidatOffre(i, j).call();
+          demande._addressCandidats.push(address);
+          const nom = await contrat.methods.nomCandidatOffre(i, j).call();
+          demande._nomsCandidats.push(nom);
+        }
+        offers.push(demande);
+      }
       this.setState({
-        contrat : contrat._address
+        contrat : contrat._address,
+        offers: offers
       })
-      console.log(contrat)
     } else {
       window.alert('Defi2 contract not deployed to detected network.')
     }
@@ -75,51 +92,18 @@ class App extends Component {
     await myContract.methods.ajouterDemande(remunerationOffre, delaiOffre, descriptionOffre, reputationMiniOffre).send({from: account, value: cost})
   }
 
-  //postuler(uint numeroOffre)
-  async postuler(numeroOffre) {
-    const { web3, contrat, account } = this.state
-    const myContract = new web3.eth.Contract(Defi2.abi, contrat)
-    await myContract.methods.postuler(numeroOffre).send({from: account})
-  }
-
-  //accepterOffre(uint numeroOffre, address elu)
-  async accepterOffre(numeroOffre, elu) {
-    const { web3, contrat, account } = this.state
-    const myContract = new web3.eth.Contract(Defi2.abi, contrat)
-    await myContract.methods.accepterOffre(numeroOffre, elu).send({from: account})
-  }
-
   //produireHash(string memory url)
   async produireHash(contenu) {
     const { web3, contrat } = this.state
     const myContract = new web3.eth.Contract(Defi2.abi, contrat)
     const contenuHasher = await myContract.methods.produireHash(contenu).call()
     this.setState({contenuHasher});
-  }
-
-  //livraison(uint numeroOffre, bytes32 rendu)
-  async livraison(numeroOffre, travailHash){
-    const { web3, contrat, account } = this.state
-    const myContract = new web3.eth.Contract(Defi2.abi, contrat)
-    await myContract.methods.livraison(numeroOffre, travailHash).send({from: account})
-  }
-
-  //retirerFonds(uint numeroOffre)
-  async retirerFonds(numeroOffre){
-    const { web3, contrat, account } = this.state
-    const myContract = new web3.eth.Contract(Defi2.abi, contrat)
-    await myContract.methods.retirerFonds(numeroOffre).send({from: account})
-  }
-
-  //sanctionner(uint numeroOffre)
-  async sanctionner(numeroOffre){
-    const { web3, contrat, account } = this.state
-    const myContract = new web3.eth.Contract(Defi2.abi, contrat)
-    await myContract.methods.sanctionner(numeroOffre).send({from: account})
+    this.setState({contenuStyle: {width: '90%', display: 'block'}});
   }
 
   render() {
-    const { contenuHasher } = this.state
+    const { web3, account, contrat, offers, contenuHasher } = this.state;
+    const { contenuStyle } = this.state;
     return (
       <React.Fragment>
         <div className="App">
@@ -170,42 +154,6 @@ class App extends Component {
                   </form>
                 </div>
 
-                <div id="candidature" className="conteneur">
-                  Candidater:
-                  <form onSubmit={(event) => {
-                      event.preventDefault()
-                      const offre = this.numeroOffre.value
-                      this.inscription(offre)
-                    }}>
-                    <div className="champs">
-                      <div className="formulaireItems">Numéro de l'offre: 
-                      <input id="numeroOffre" type="text" ref={(input) => { this.numeroOffre = input }} required/>
-                      </div>
-                    </div>
-                    <button type="submit" >Valider</button>
-                  </form>
-                </div>
-
-                <div id="acceptation" className="conteneur">
-                  Accepter candidature:
-                  <form onSubmit={(event) => {
-                      event.preventDefault()
-                      const offre = this.numeroOffre.value
-                      const eluAddress = this.elu.value
-                      this.accepterOffre(offre, eluAddress)
-                    }}>
-                    <div className="champs">
-                      <div className="formulaireItems">Numéro de l'offre: 
-                      <input id="numeroOffre" type="text" ref={(input) => { this.numeroOffre = input }} required/>
-                      </div>
-                      <div className="formulaireItems">Adresse du candidat choisi: 
-                      <input id="elu" type="text" ref={(input) => { this.elu = input }} required/>
-                      </div>
-                    </div>
-                    <button type="submit" >Valider</button>
-                  </form>
-                </div>
-
                 <div id="hasher" className="conteneur">
                   Hasher:
                   <form onSubmit={(event) => {
@@ -217,72 +165,21 @@ class App extends Component {
                       <div className="formulaireItems">Lien à hasher: 
                       <input id="lien" type="text" ref={(input) => { this.lien = input }} required/>
                       </div>
-                      <div className="formulaireItems">Résultat: 
-                      <label id="contenuHasher">{contenuHasher}</label>
+                      <div className="formulaireItems">
+                      <textarea id="contenuHasher" value={contenuHasher} style={contenuStyle}></textarea>
                       </div>
                     </div>
                     <button type="submit" >Valider</button>
                   </form>
                 </div>
 
-                <div id="livraison" className="conteneur">
-                  Livrer travail:
-                  <form onSubmit={(event) => {
-                      event.preventDefault()
-                      const offre = this.numeroOffre.value
-                      const travail = this.travailHasher.value
-                      this.livraison(offre, travail)
-                    }}>
-                    <div className="champs">
-                      <div className="formulaireItems">Numéro de l'offre: 
-                      <input id="numeroOffre" type="text" ref={(input) => { this.numeroOffre = input }} required/>
-                      </div>
-                      <div className="formulaireItems">Hash: 
-                      <input id="travailHasher" type="text" ref={(input) => { this.travailHasher = input }} required/>
-                      </div>
-                    </div>
-                    <button type="submit" >Valider</button>
-                  </form>
-                </div>
-
-                <div id="retirer" className="conteneur">
-                  Retirer les fonds:
-                  <form onSubmit={(event) => {
-                      event.preventDefault()
-                      const offre = this.numeroOffre.value
-                      this.retirerFonds(offre)
-                    }}>
-                    <div className="champs">
-                      <div className="formulaireItems">Numéro de l'offre: 
-                      <input id="numeroOffre" type="text" ref={(input) => { this.numeroOffre = input }} required/>
-                      </div>
-                    </div>
-                    <button type="submit" >Valider</button>
-                  </form>
-                </div>
-
-                <div id="sanctionner" className="conteneur">
-                  Sanctionner:
-                  <form onSubmit={(event) => {
-                      event.preventDefault()
-                      const offre = this.numeroOffre.value
-                      this.sanctionner(offre)
-                    }}>
-                    <div className="champs">
-                      <div className="formulaireItems">Numéro de l'offre: 
-                      <input id="numeroOffre" type="text" ref={(input) => { this.numeroOffre = input }} required/>
-                      </div>
-                    </div>
-                    <button type="submit" >Valider</button>
-                  </form>
-                </div>
               </div>
 
               <div className="mainConteneurChild">
                 <div id="listeOffres" className="conteneur">
                 Liste des offres:
                 <ul>
-                  { this.state.offers.map( offre => <li>{ offre }</li>)}
+                  { offers.map( (offre, numeroOffre) => <OffreItem web3={web3} account={account} contrat={contrat} key={numeroOffre.toString()} offre={offre} numeroOffre={numeroOffre} />)}
                 </ul>
                 </div>
               </div>
@@ -295,7 +192,6 @@ class App extends Component {
 }
 
 export default App;
-
 
 /*
 import React, { Component } from 'react';
