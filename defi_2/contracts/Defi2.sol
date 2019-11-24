@@ -1,5 +1,5 @@
 pragma solidity ^0.5.11;
-pragma experimental ABIEncoderV2;
+//pragma experimental ABIEncoderV2;
 
 //import "https://github.com/OpenZeppelin/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
@@ -75,6 +75,7 @@ contract Defi2 {
         require(bannis[msg.sender] == false, "Vous avez été banni");
         require(reputation[msg.sender] > 0, "Vous devez être inscrit");
         require(demandes[numeroOffre]._proprietaire != msg.sender, "Vous êtes le propriétaire");
+        require(demandes[numeroOffre]._candidats[msg.sender] == false, "Vous avez déjà candidaté");
         demandes[numeroOffre]._candidats[msg.sender] = true;
         demandes[numeroOffre]._addressCandidats.push(msg.sender);
         demandes[numeroOffre]._nomsCandidats.push(utilisateurs[msg.sender]);
@@ -107,7 +108,7 @@ contract Defi2 {
     function retirerFonds(uint numeroOffre) public{
         require(demandes[numeroOffre]._etat == Etat.FERMEE, "Cette offre n'est pas fermée");
         require(demandes[numeroOffre]._elu == msg.sender, "Vous n'êtes pas l'illustrateur de cette offre");
-        require(demandes[numeroOffre]._fondsDispo = true, "Les fonds ne sont pas disponibles");
+        require(demandes[numeroOffre]._fondsDispo == true, "Les fonds ne sont pas disponibles");
         msg.sender.transfer(demandes[numeroOffre]._remuneration);
         demandes[numeroOffre]._fondsDispo = false;
     }
