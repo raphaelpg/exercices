@@ -60,10 +60,7 @@ class App extends Component {
       const reput = await contrat.methods.reputationPerso(this.state.account).call();
       let nomUser = ''
       if (reput > 0){
-        console.log("reput",reput)
-        let nomRecup = contrat.methods.utilisateurs(this.state.account).call();
-        console.log("nomRecup", nomRecup)
-        console.log("type", typeof(nomRecup))
+        nomUser = await contrat.methods.utilisateurs(this.state.account).call();
       }
       for (let i = 0; i < demandesCompteur; i++) {
         const demande = await contrat.methods.demandes(i).call();
@@ -117,11 +114,37 @@ class App extends Component {
     const {web3, account, contrat, offers, contenuHasher} = this.state;
     const {contenuStyle} = this.state;
     const {reput} = this.state;
-    let titreInscription
+    let InscriptionBulle;
     if (this.state.nomUser !== ''){
-      titreInscription = <h3>Connecté</h3>
+      InscriptionBulle = (
+        <div id="inscriptionUtilisateur" className="conteneur">
+          <h3>Connecté</h3>
+          <div className="champs">
+            <div className="formulaireItems">Connecté en tant que: {this.state.nomUser}</div>
+            <div className="formulaireItems">
+              <label>Votre réputation: {reput}</label>
+            </div>
+          </div>
+        </div>
+      )
     } else {
-      titreInscription = <h3>Inscription :</h3>
+      InscriptionBulle = (
+        <div id="inscriptionUtilisateur" className="conteneur">
+          <h3>Inscription: </h3>
+          <form onSubmit={(event) => {
+              event.preventDefault()
+              const nom = this.nomUtilisateur.value
+              this.inscription(nom)
+            }}>
+            <div className="champs">
+              <div className="formulaireItems">Nom: 
+                <input id="nomUtilisateur" type="text" ref={(input) => { this.nomUtilisateur = input }} required/>
+              </div>
+            </div>
+            <button type="submit" >Valider</button>
+          </form>
+        </div>
+      )
     }
     return (
       <React.Fragment>
@@ -131,25 +154,7 @@ class App extends Component {
             <div className="mainConteneur">
               <div className="mainConteneurChild">
 
-                <div id="inscriptionUtilisateur" className="conteneur">
-                  <div>{titreInscription}</div>
-                  
-                  <form onSubmit={(event) => {
-                      event.preventDefault()
-                      const nom = this.nomUtilisateur.value
-                      this.inscription(nom)
-                    }}>
-                    <div className="champs">
-                      <div className="formulaireItems">Nom: 
-                        <input id="nomUtilisateur" type="text" ref={(input) => { this.nomUtilisateur = input }} required/>
-                      </div>
-                      <div>
-                        <label>Votre réputation: {reput}</label>
-                      </div>
-                    </div>
-                    <button type="submit" >Valider</button>
-                  </form>
-                </div>
+                {InscriptionBulle}
 
                 <div id="ajouterDemande" className="conteneur">
                   <form onSubmit={(event) => {
