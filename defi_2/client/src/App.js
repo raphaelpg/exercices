@@ -19,6 +19,7 @@ class App extends Component {
       contenuHasher: '',
       contenuStyle: {width: '90%', display: 'none'},
       reput: 0,
+      nomUser: '',
     }
   }
 
@@ -57,6 +58,13 @@ class App extends Component {
       const offers = [];
       const demandesCompteur = await contrat.methods.demandesCompteur().call();
       const reput = await contrat.methods.reputationPerso(this.state.account).call();
+      let nomUser = ''
+      if (reput > 0){
+        console.log("reput",reput)
+        let nomRecup = contrat.methods.utilisateurs(this.state.account).call();
+        console.log("nomRecup", nomRecup)
+        console.log("type", typeof(nomRecup))
+      }
       for (let i = 0; i < demandesCompteur; i++) {
         const demande = await contrat.methods.demandes(i).call();
         demande._addressCandidats = [];
@@ -74,6 +82,7 @@ class App extends Component {
         contrat : contrat._address,
         offers: offers,
         reput: reput,
+        nomUser: nomUser,
       })
     } else {
       window.alert('Defi2 contract not deployed to detected network.')
@@ -108,6 +117,12 @@ class App extends Component {
     const {web3, account, contrat, offers, contenuHasher} = this.state;
     const {contenuStyle} = this.state;
     const {reput} = this.state;
+    let titreInscription
+    if (this.state.nomUser !== ''){
+      titreInscription = <h3>Connecté</h3>
+    } else {
+      titreInscription = <h3>Inscription :</h3>
+    }
     return (
       <React.Fragment>
         <div className="App">
@@ -117,7 +132,8 @@ class App extends Component {
               <div className="mainConteneurChild">
 
                 <div id="inscriptionUtilisateur" className="conteneur">
-                  <h3>Inscription:</h3>
+                  <div>{titreInscription}</div>
+                  
                   <form onSubmit={(event) => {
                       event.preventDefault()
                       const nom = this.nomUtilisateur.value
