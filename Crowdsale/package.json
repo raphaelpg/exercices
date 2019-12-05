@@ -1,0 +1,15 @@
+{
+	"name": "crowdsale",
+	"version": "0.0.1",
+	"engines": {
+		"node": "10.16.3",
+		"npm": "6.13.1"
+	},
+	"devDependencies": {
+		"@openzeppelin/test-helpers": "^0.5.4",
+		"chai": "file:node_modules/chai"
+	},
+	"dependencies": {
+		"truffle-hdwallet-provider": "^1.0.17"
+	}
+}
